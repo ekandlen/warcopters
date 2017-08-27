@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour
         Moving
     }
 
+    public float MaxHelicopterDistance = 2.5f;
+
     public List<HelicopterModel> Helicopters = new List<HelicopterModel>();
     public HelicopterModel CurrentHelicopter;
     public int Index;
@@ -30,6 +33,7 @@ public class Player : MonoBehaviour
     public PositionSelector PositionSelector;
     public GameObject DirectionLabel;
     public DirectionSelector DirectionSelector;
+    public DistanceSelector DistanceSelector;
 
 
     public Player Init(Vector2 startingPosition, int index)
@@ -43,6 +47,8 @@ public class Player : MonoBehaviour
         DirectionLabel = GameObject.Find("P" + Index + "DirectionLabel");
         GameObject directionSelectorObject = GameObject.Find("P" + Index + "DirectionSelector");
         DirectionSelector = directionSelectorObject.GetComponent<DirectionSelector>();
+        GameObject distanceSelectorObject = GameObject.Find("P" + Index + "DistanceSelector");
+        DistanceSelector = distanceSelectorObject.GetComponent<DistanceSelector>();
         return this;
     }
 
@@ -57,14 +63,6 @@ public class Player : MonoBehaviour
 
         CurrentHelicopter = helicopter;
         return helicopter;
-    }
-
-    public void Launch()
-    {
-        AddHelicopter();
-        CurrentHelicopter.gameObject.transform.position = new Vector3(CurrentHelicopter.gameObject.transform.position.x,
-            PositionSelector.Position, CurrentHelicopter.gameObject.transform.position.z);
-        CurrentHelicopter.Launch((int) DirectionSelector.Direction, 3);
     }
 
     public void SelectPosition()
@@ -97,13 +95,24 @@ public class Player : MonoBehaviour
 
     public void SelectDistance()
     {
-        //DirectionSelector.SelectDirection();
+        DistanceSelector.SelectDistance();
         PlayerState = State.Distance;
     }
 
     public void DistanceSelected()
     {
-        DirectionSelector.StopMoving();
+        DistanceSelector.StopMoving();
         Launch();
+    }
+
+    public void Launch()
+    {
+        PlayerState = State.Waiting;
+        AddHelicopter();
+        CurrentHelicopter.gameObject.transform.position = new Vector3(CurrentHelicopter.gameObject.transform.position.x,
+            PositionSelector.Position, CurrentHelicopter.gameObject.transform.position.z);
+        var distance = Mathf.Abs(DistanceSelector.Distance) * MaxHelicopterDistance;
+
+        CurrentHelicopter.Launch((int) DirectionSelector.Direction, distance);
     }
 }

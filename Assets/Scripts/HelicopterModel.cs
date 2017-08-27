@@ -22,7 +22,7 @@ public class HelicopterModel : MovingObject
         return this;
     }
 
-    public void Launch(int direction, int distance)
+    public void Launch(int direction, float distance)
     {
         if (RemainingDistance > 0)
         {

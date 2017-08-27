@@ -9,7 +9,8 @@ public class DirectionSelector : MonoBehaviour
     public int DirectionSelectorVelocity = 90;
 
     public int Velocity;
-    public float Direction = -90;
+    public float Direction;
+    private float _directionOffset;
 
     // Update is called once per frame
     void Update()
@@ -19,17 +20,18 @@ public class DirectionSelector : MonoBehaviour
             return;
         }
         var delta = Velocity * Time.deltaTime;
-        Direction += delta;
-        if (Direction < 0 && Direction < DirectionSelectorStart)
+        _directionOffset += delta;
+        if (_directionOffset <= 0)
         {
-            Direction = DirectionSelectorStart;
+            _directionOffset = 0;
             Velocity = DirectionSelectorVelocity;
         }
-        else if (Direction > 0 && Direction > DirectionSelectorRange + DirectionSelectorStart)
+        else if (_directionOffset >= DirectionSelectorRange)
         {
-            Direction = DirectionSelectorRange + DirectionSelectorStart;
+            _directionOffset = DirectionSelectorRange;
             Velocity = -DirectionSelectorVelocity;
         }
+        Direction = DirectionSelectorStart + _directionOffset;
         gameObject.transform.rotation = Quaternion.AngleAxis(Direction, Vector3.forward);
     }
 
@@ -40,6 +42,7 @@ public class DirectionSelector : MonoBehaviour
 
     public void SelectDirection()
     {
+        _directionOffset = Direction - DirectionSelectorStart;
         Velocity = Direction <= DirectionSelectorStart ? DirectionSelectorVelocity : -DirectionSelectorVelocity;
     }
 }

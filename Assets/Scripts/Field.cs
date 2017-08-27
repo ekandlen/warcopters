@@ -35,6 +35,7 @@ public class Field : MonoBehaviour
 
     public void Launch(Player player)
     {
+        Debug.Log("LP " + player.Index + ": " + player.PlayerState);
         if (player.PlayerState == Player.State.Position)
         {
             player.PositionSelected();
@@ -46,11 +47,13 @@ public class Field : MonoBehaviour
         else if (player.PlayerState == Player.State.Distance)
         {
             player.DistanceSelected();
+            Invoke("NextPlayerMove", 3);
         }
-        else if(player.PlayerState == Player.State.Moving)
+        else if (player.PlayerState == Player.State.Waiting)
         {
-            // ignore
+            //player.SelectPosition();
         }
+        Debug.Log("PP " + player.Index + ": " + player.PlayerState);
     }
 
     private void Start()
@@ -62,6 +65,14 @@ public class Field : MonoBehaviour
 
     public void NextPlayerMove()
     {
-        CurrentPlayer.PositionSelector.StopMoving();
+        if (CurrentPlayer.Index == 1)
+        {
+            CurrentPlayer = Player2();
+        }
+        else
+        {
+            CurrentPlayer = Player1();
+        }
+        CurrentPlayer.SelectPosition();
     }
 }
