@@ -47,7 +47,7 @@ public class Field : MonoBehaviour
         else if (player.PlayerState == Player.State.Distance)
         {
             player.DistanceSelected();
-            Invoke("NextPlayerMove", 3);
+            Invoke("NextPlayerMove", 1);
         }
         else if (player.PlayerState == Player.State.Waiting)
         {
