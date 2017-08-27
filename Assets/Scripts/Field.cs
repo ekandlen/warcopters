@@ -39,9 +39,17 @@ public class Field : MonoBehaviour
         {
             player.PositionSelected();
         }
-        else
+        else if (player.PlayerState == Player.State.Direction)
         {
-            player.Launch();
+            player.DirectionSelected();
+        }
+        else if (player.PlayerState == Player.State.Distance)
+        {
+            player.DistanceSelected();
+        }
+        else if(player.PlayerState == Player.State.Moving)
+        {
+            // ignore
         }
     }
 

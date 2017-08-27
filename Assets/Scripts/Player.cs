@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
     private Vector2 _startingPosition;
 
     public PositionSelector PositionSelector;
+    public GameObject DirectionLabel;
+    public DirectionSelector DirectionSelector;
 
 
     public Player Init(Vector2 startingPosition, int index)
@@ -38,6 +40,9 @@ public class Player : MonoBehaviour
         Index = index;
         GameObject positionSelectorObject = GameObject.Find("P" + Index + "PositionSelector");
         PositionSelector = positionSelectorObject.GetComponent<PositionSelector>();
+        DirectionLabel = GameObject.Find("P" + Index + "DirectionLabel");
+        GameObject directionSelectorObject = GameObject.Find("P" + Index + "DirectionSelector");
+        DirectionSelector = directionSelectorObject.GetComponent<DirectionSelector>();
         return this;
     }
 
@@ -56,7 +61,10 @@ public class Player : MonoBehaviour
 
     public void Launch()
     {
-        CurrentHelicopter.Launch(45, 3);
+        AddHelicopter();
+        CurrentHelicopter.gameObject.transform.position = new Vector3(CurrentHelicopter.gameObject.transform.position.x,
+            PositionSelector.Position, CurrentHelicopter.gameObject.transform.position.z);
+        CurrentHelicopter.Launch((int) DirectionSelector.Direction, 3);
     }
 
     public void SelectPosition()
@@ -68,10 +76,34 @@ public class Player : MonoBehaviour
     public void PositionSelected()
     {
         PositionSelector.StopMoving();
+        SelectDirection();
+    }
+
+    public void SelectDirection()
+    {
+        DirectionLabel.transform.position = new Vector3(DirectionLabel.transform.position.x,
+            PositionSelector.Position, DirectionLabel.transform.position.z);
+        DirectionSelector.gameObject.transform.position = new Vector3(DirectionSelector.gameObject.transform.position.x,
+            PositionSelector.Position, DirectionSelector.gameObject.transform.position.z);
+        DirectionSelector.SelectDirection();
         PlayerState = State.Direction;
-        AddHelicopter();
-        CurrentHelicopter.gameObject.transform.position = new Vector3(CurrentHelicopter.gameObject.transform.position.x,
-            PositionSelector.CurrentPosition, CurrentHelicopter.gameObject.transform.position.z);
-        
+    }
+
+    public void DirectionSelected()
+    {
+        DirectionSelector.StopMoving();
+        SelectDistance();
+    }
+
+    public void SelectDistance()
+    {
+        //DirectionSelector.SelectDirection();
+        PlayerState = State.Distance;
+    }
+
+    public void DistanceSelected()
+    {
+        DirectionSelector.StopMoving();
+        Launch();
     }
 }

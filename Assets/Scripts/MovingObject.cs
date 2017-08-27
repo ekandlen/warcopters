@@ -39,22 +39,22 @@ public abstract class MovingObject : MonoBehaviour
             moved = true;
             if (MoveX)
             {
-                _mvnt.ForceMoveAlongY(dx);
+                _mvnt.ForceMoveAlongX(dx);
             }
             if (MoveY)
             {
-                _mvnt.ForceMoveAlongX(dy);
+                _mvnt.ForceMoveAlongY(dy);
             }
         }
         else
         {
             if (MoveX)
             {
-                moved = _mvnt.MoveAlongY(dx) || moved;
+                moved = _mvnt.MoveAlongX(dx) || moved;
             }
             if (MoveY)
             {
-                moved = _mvnt.MoveAlongX(dy) || moved;
+                moved = _mvnt.MoveAlongY(dy) || moved;
             }
         }
         var distance = Mathf.Sqrt(dx * dx + dy * dy);
