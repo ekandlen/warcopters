@@ -18,13 +18,9 @@ public class Player : MonoBehaviour
         _startingPosition = startingPosition;
         Index = index;
         AddHelicopter();
-        return this;
-    }
-
-    private void Start()
-    {
         GameObject positionSelectorObject = GameObject.Find("P" + Index + "PositionSelector");
         PositionSelector = positionSelectorObject.GetComponent<PositionSelector>();
+        return this;
     }
 
     public HelicopterModel AddHelicopter()

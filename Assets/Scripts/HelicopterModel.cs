@@ -6,8 +6,6 @@ public class HelicopterModel : MovingObject
     public int MaxHP = 100;
     public int HP;
 
-    public float RemainingDistance;
-
     public Vector2 StartingPosition = new Vector2(0, 0);
 
     public HelicopterModel()
@@ -37,15 +35,4 @@ public class HelicopterModel : MovingObject
         MovingDirection(direction);
         MovingVelocity(HELICOPTER_DEFAULT_VELOCITY);
     }
-
-    protected override void OnMove(float distance)
-    {
-        base.OnMove(distance);
-        RemainingDistance -= distance;
-        if (RemainingDistance <= 0)
-        {
-            StopMoving();
-        }
-    }
-
 }

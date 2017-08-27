@@ -9,6 +9,9 @@ public abstract class MovingObject : MonoBehaviour
     protected int Direction;
     protected float Dh;
     protected float Dv;
+    protected bool Force = false;
+
+    public float RemainingDistance;
 
     private Movement2D _mvnt;
 
@@ -26,16 +29,34 @@ public abstract class MovingObject : MonoBehaviour
         }
         // Debug.Log("MO.Update" + Dh);
 
-        _mvnt.MoveAlongX(Dh * Velocity * Time.deltaTime);
-        _mvnt.MoveAlongY(Dv * Velocity * Time.deltaTime);
-
+        var dx = Dh * Velocity * Time.deltaTime;
+        var dy = Dv * Velocity * Time.deltaTime;
+        var moved = false;
+        if (Force)
+        {
+            moved = true;
+            _mvnt.ForceMoveAlongX(dx);
+            _mvnt.ForceMoveAlongY(dy);
+        }
+        else
+        {
+            moved = _mvnt.MoveAlongX(dx) || moved;
+            moved = _mvnt.MoveAlongY(dy) || moved;
+        }
+        var distance = Mathf.Sqrt(dx * dx + dy * dy);
+        RemainingDistance -= distance;
+        if (RemainingDistance <= 0)
+        {
+            StopMoving();
+        }
+        OnMove(distance, moved);
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // Mvnt.SmoothGridMove(Vector2.right, Distance, false);
         }
     }
 
-    protected virtual void OnMove(float distance)
+    protected virtual void OnMove(float distance, bool moved)
     {
         // override
     }
@@ -45,7 +66,6 @@ public abstract class MovingObject : MonoBehaviour
         Direction = direction;
         Dh = Mathf.Sin(direction * Mathf.PI / 180);
         Dv = Mathf.Cos(direction * Mathf.PI / 180);
-        Debug.Log("MO.direction " + gameObject.transform.position);
     }
 
     public void MovingVelocity(int velocity)
@@ -56,5 +76,10 @@ public abstract class MovingObject : MonoBehaviour
     public void StopMoving()
     {
         MovingVelocity(0);
+    }
+
+    public void MoveTo(Vector3 target)
+    {
+        _mvnt.Move(target);
     }
 }

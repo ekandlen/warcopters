@@ -37,4 +37,14 @@ public class Field : MonoBehaviour
     {
         player.Launch();
     }
+
+    private void Start()
+    {
+        CurrentPlayer.SelectPosition();
+    }
+
+    public void NextPlayerMove()
+    {
+        CurrentPlayer.PositionSelector.StopMoving();
+    }
 }
