@@ -35,12 +35,21 @@ public class Field : MonoBehaviour
 
     public void Launch(Player player)
     {
-        player.Launch();
+        if (player.PlayerState == Player.State.Position)
+        {
+            player.PositionSelected();
+        }
+        else
+        {
+            player.Launch();
+        }
     }
 
     private void Start()
     {
         CurrentPlayer.SelectPosition();
+
+        //if (Input.GetKeyDown(KeyCode.Return))
     }
 
     public void NextPlayerMove()

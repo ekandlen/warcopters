@@ -16,6 +16,7 @@ public class PositionSelector : SelectorBase
     public PositionSelector()
     {
         Force = true;
+        MoveX = false;
     }
 
     public void SelectPosition()
@@ -24,24 +25,22 @@ public class PositionSelector : SelectorBase
         MovingVelocity(POSITION_SELECTOR_SPEED);
 
         CurrentPosition = gameObject.transform.position.y;
-        RemainingDistance = POSITION_SELECTOR_RANGE - CurrentPosition;
+        RemainingDistance = POSITION_SELECTOR_RANGE;
     }
 
     protected override void OnMove(float distance, bool moved)
     {
         CurrentPosition = gameObject.transform.position.y;
-        if (RemainingDistance <= 0)
+        if (CurrentPosition < POSITION_SELECTOR_START)
         {
-            if (Direction > 0) // moving up
-            {
-                MovingDirection(DIRECTION_UP);
-                RemainingDistance = POSITION_SELECTOR_RANGE - CurrentPosition;
-            }
-            else // moving down
-            {
-                MovingDirection(DIRECTION_DOWN);
-                RemainingDistance = CurrentPosition;
-            }
+            MovingDirection(DIRECTION_UP);
+            RemainingDistance = POSITION_SELECTOR_RANGE;
+            MovingVelocity(POSITION_SELECTOR_SPEED);
+        }
+        else if (CurrentPosition > POSITION_SELECTOR_START + POSITION_SELECTOR_RANGE)
+        {
+            MovingDirection(DIRECTION_DOWN);
+            RemainingDistance = POSITION_SELECTOR_RANGE;
             MovingVelocity(POSITION_SELECTOR_SPEED);
         }
     }

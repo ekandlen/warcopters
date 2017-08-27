@@ -10,6 +10,8 @@ public abstract class MovingObject : MonoBehaviour
     protected float Dh;
     protected float Dv;
     protected bool Force = false;
+    protected bool MoveX = true;
+    protected bool MoveY = true;
 
     public float RemainingDistance;
 
@@ -29,19 +31,31 @@ public abstract class MovingObject : MonoBehaviour
         }
         // Debug.Log("MO.Update" + Dh);
 
-        var dx = Dh * Velocity * Time.deltaTime;
-        var dy = Dv * Velocity * Time.deltaTime;
+        var dx = MoveX ? Dh * Velocity * Time.deltaTime : 0;
+        var dy = MoveY ? Dv * Velocity * Time.deltaTime : 0;
         var moved = false;
         if (Force)
         {
             moved = true;
-            _mvnt.ForceMoveAlongX(dx);
-            _mvnt.ForceMoveAlongY(dy);
+            if (MoveX)
+            {
+                _mvnt.ForceMoveAlongY(dx);
+            }
+            if (MoveY)
+            {
+                _mvnt.ForceMoveAlongX(dy);
+            }
         }
         else
         {
-            moved = _mvnt.MoveAlongX(dx) || moved;
-            moved = _mvnt.MoveAlongY(dy) || moved;
+            if (MoveX)
+            {
+                moved = _mvnt.MoveAlongY(dx) || moved;
+            }
+            if (MoveY)
+            {
+                moved = _mvnt.MoveAlongX(dy) || moved;
+            }
         }
         var distance = Mathf.Sqrt(dx * dx + dy * dy);
         RemainingDistance -= distance;
@@ -64,8 +78,8 @@ public abstract class MovingObject : MonoBehaviour
     public void MovingDirection(int direction)
     {
         Direction = direction;
-        Dh = Mathf.Sin(direction * Mathf.PI / 180);
-        Dv = Mathf.Cos(direction * Mathf.PI / 180);
+        Dh = Mathf.Cos(direction * Mathf.PI / 180);
+        Dv = Mathf.Sin(direction * Mathf.PI / 180);
     }
 
     public void MovingVelocity(int velocity)

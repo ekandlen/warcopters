@@ -3,9 +3,28 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public enum State
+    {
+        // waiting for my turn
+        Waiting,
+
+        // selecting position
+        Position,
+
+        // selecting direction
+        Direction,
+
+        // selecting distance
+        Distance,
+
+        // moving
+        Moving
+    }
+
     public List<HelicopterModel> Helicopters = new List<HelicopterModel>();
     public HelicopterModel CurrentHelicopter;
     public int Index;
+    public State PlayerState = State.Waiting;
     private Vector2 _startingPosition;
 
     public PositionSelector PositionSelector;
@@ -17,7 +36,6 @@ public class Player : MonoBehaviour
 
         _startingPosition = startingPosition;
         Index = index;
-        AddHelicopter();
         GameObject positionSelectorObject = GameObject.Find("P" + Index + "PositionSelector");
         PositionSelector = positionSelectorObject.GetComponent<PositionSelector>();
         return this;
@@ -44,5 +62,16 @@ public class Player : MonoBehaviour
     public void SelectPosition()
     {
         PositionSelector.SelectPosition();
+        PlayerState = State.Position;
+    }
+
+    public void PositionSelected()
+    {
+        PositionSelector.StopMoving();
+        PlayerState = State.Direction;
+        AddHelicopter();
+        CurrentHelicopter.gameObject.transform.position = new Vector3(CurrentHelicopter.gameObject.transform.position.x,
+            PositionSelector.CurrentPosition, CurrentHelicopter.gameObject.transform.position.z);
+        
     }
 }
