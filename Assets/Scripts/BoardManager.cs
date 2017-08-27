@@ -5,6 +5,7 @@ public class BoardManager : MonoBehaviour
     [HideInInspector] public Transform Holder;
 
     public GameObject Helicopter;
+    public GameObject[] Stormcopter;
     private HelicopterModel _helicopter;
 
     public Field Field;

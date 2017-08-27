@@ -54,7 +54,8 @@ public class Player : MonoBehaviour
 
     public HelicopterModel AddHelicopter()
     {
-        GameObject instance = Instantiate(GameManager.instance.Board.Helicopter,
+        var source = GameManager.instance.Board.Stormcopter[Index - 1];
+        GameObject instance = Instantiate(source,
             new Vector3(_startingPosition.x, _startingPosition.y, 0f), Quaternion.identity);
         HelicopterModel helicopter = instance.GetComponent<HelicopterModel>();
         helicopter.Init(_startingPosition);
