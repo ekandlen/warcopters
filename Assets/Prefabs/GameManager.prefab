@@ -54,6 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Holder: {fileID: 0}
   Helicopter: {fileID: 1302046550055312, guid: 4c082d15eee8d402087b18e4b92ec3a3, type: 2}
+  Field: {fileID: 0}
 --- !u!114 &114445372213522368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,3 +67,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Board: {fileID: 0}
+  P1LaunchButton: {fileID: 0}
+  P2LaunchButton: {fileID: 0}
+  P1PositionSelector: {fileID: 1915587852101444, guid: aaf47a44be0e94aa7a6a778ffa8d4280,
+    type: 2}
+  P2PositionSelector: {fileID: 0}
+  P1DirectionSelector: {fileID: 0}
+  P2DirectionSelector: {fileID: 0}

@@ -1,13 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-    [HideInInspector]
-    public BoardManager Board;
+    [HideInInspector] public BoardManager Board;
+
+    // controls
+
+    public GameObject P1LaunchButton;
+    public GameObject P2LaunchButton;
+    public GameObject P1PositionSelector;
+    public GameObject P2PositionSelector;
+    public GameObject P1DirectionSelector;
+    public GameObject P2DirectionSelector;
 
     //Awake is always called before any Start functions
     void Awake()
@@ -40,13 +47,18 @@ public class GameManager : MonoBehaviour
         Board.Init();
     }
 
-    // Use this for initialization
-    void Start()
+    public void P1LaunchOnClick(String name)
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        Debug.Log("P1LaunchClick" + name);
+        Player player;
+        if ("P1Launch".Equals(name))
+        {
+            player = instance.Board.Field.Player1();
+        }
+        else
+        {
+            player = instance.Board.Field.Player2();
+        }
+        instance.Board.Field.Launch(player);
     }
 }

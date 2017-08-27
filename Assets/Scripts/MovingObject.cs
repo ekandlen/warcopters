@@ -18,7 +18,7 @@ public abstract class MovingObject : MonoBehaviour
     }
 
     [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
-    private void Update()
+    protected void Update()
     {
         if (Velocity <= 0 || (Dh == 0 && Dv == 0))
         {
@@ -51,5 +51,10 @@ public abstract class MovingObject : MonoBehaviour
     public void MovingVelocity(int velocity)
     {
         Velocity = velocity;
+    }
+
+    public void StopMoving()
+    {
+        MovingVelocity(0);
     }
 }

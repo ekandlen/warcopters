@@ -7,18 +7,34 @@ public class Field : MonoBehaviour
     public static int BOARD_HEIGHT = 9;
 
     public List<Player> Players = new List<Player>();
+    public Player CurrentPlayer;
     private List<Vector2> _startingPositions = new List<Vector2>();
 
     public Field Init()
     {
         Debug.Log("Field.Init()");
-        _startingPositions.Add(new Vector2(-BOARD_WIDTH + 1, 0));
-        _startingPositions.Add(new Vector2(BOARD_WIDTH - 1, 0));
+        _startingPositions.Add(new Vector2(-BOARD_WIDTH + 2, 0));
+        _startingPositions.Add(new Vector2(BOARD_WIDTH - 2, 0));
 
-        foreach (var startingPosition in _startingPositions)
-        {
-            Players.Add(gameObject.AddComponent<Player>().Init(startingPosition));
-        }
+        Players.Add(gameObject.AddComponent<Player>().Init(_startingPositions[0], 1));
+        Players.Add(gameObject.AddComponent<Player>().Init(_startingPositions[1], 2));
+
+        CurrentPlayer = Player1();
         return this;
+    }
+
+    public Player Player1()
+    {
+        return Players[0];
+    }
+
+    public Player Player2()
+    {
+        return Players[1];
+    }
+
+    public void Launch(Player player)
+    {
+        player.Launch();
     }
 }

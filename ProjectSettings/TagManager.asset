@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Item
   - Helicopter
+  - Control
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Map
   - Items
   - Helicopters
-  - 
+  - Control
   - 
   - 
   - 
@@ -51,4 +52,7 @@ TagManager:
     locked: 0
   - name: Helicopters
     uniqueID: 3185885055
+    locked: 0
+  - name: Control
+    uniqueID: 206722721
     locked: 0
