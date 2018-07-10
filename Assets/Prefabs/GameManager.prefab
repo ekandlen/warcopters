@@ -54,6 +54,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Holder: {fileID: 0}
   Helicopter: {fileID: 1302046550055312, guid: 4c082d15eee8d402087b18e4b92ec3a3, type: 2}
+  Stormcopter:
+  - {fileID: 1302046550055312, guid: 4c082d15eee8d402087b18e4b92ec3a3, type: 2}
+  - {fileID: 1302046550055312, guid: bfa0495cbda724b19b3081c2778c56d8, type: 2}
   Field: {fileID: 0}
 --- !u!114 &114445372213522368
 MonoBehaviour:
